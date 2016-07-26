@@ -1,0 +1,8 @@
+.DS_Store
+node_modules
+index.html
+*.css
+!reset.css
+lib/app/templates.js
+*.stackdump
+
