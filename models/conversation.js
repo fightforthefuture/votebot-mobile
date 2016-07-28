@@ -3,7 +3,8 @@ var Conversation = Composer.RelationalModel.extend({
 
 	relations: {
 		recipients: { collection: 'Recipients' },
-		messages: { collection: 'Messages' }
+		messages: { collection: 'Messages' },
+		users: { collection: 'Users' }
 	},
 
 	polling: false,
@@ -20,9 +21,11 @@ var Conversation = Composer.RelationalModel.extend({
 			var data = this.toJSON();
 			delete data.messages;
 			data.message = message.toJSON();
+			data.type = 'web';
 			return app.api.post(this.get_url(), data, {})
 				.bind(this)
 				.then(function(res) {
+					console.log('res: ', res);
 					this.set(res);
 				});
 		}
@@ -47,7 +50,14 @@ var Conversation = Composer.RelationalModel.extend({
 
 		var last_id = this.get('messages').toJSON()
 			.reduce(function(acc, x) { if(x.id > acc) { return x.id; } return acc; }, 0);
-		return app.api.get(this.get_url()+'/new', {}, {getvars: {last_id: last_id}})
+
+		var users = this.get('users').toJSON(),
+		    username = users[0].username;
+
+		return app.api.get(this.get_url()+'/new', {}, {getvars: {
+				last_id: last_id,
+				username: username
+			}})
 			.bind(this)
 			.then(function(messages) {
 				if(!this.polling) return;

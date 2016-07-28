@@ -7,3 +7,6 @@ var User = Composer.Model.extend({
 	}
 });
 
+var Users = Composer.Collection.extend({
+    model: User
+});

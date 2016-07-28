@@ -6,5 +6,5 @@
 
 if(!window.config) window.config = {};
 
-config.api_url = 'https://votebot-api.herokuapp.com';		// NO trailing slash
+config.api_url = 'http://localhost:3000';		// NO trailing slash
 

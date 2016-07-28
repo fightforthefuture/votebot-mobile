@@ -4,7 +4,7 @@ var ConversationsRecipientsController = Composer.Controller.extend({
 
 	elements: {
 		// TODO: change once we have multiple recipients
-		'input[name=to]': 'inp_to'
+		// 'input[name=to]': 'inp_to' // JL NOTE ~ disabled "recipients" for web only use
 	},
 
 	events: {
@@ -18,11 +18,14 @@ var ConversationsRecipientsController = Composer.Controller.extend({
 		if(!this.recipients) throw new Error('please provide a recipients collection');
 
 		// TODO: change once we have multiple recipients
+		// JL NOTE ~ disabled "recipients" for web only use
+		/*
 		var recipient = new Recipient();
 		this.recipients.add(recipient);
 		this.bind('update-recipient', function(number) {
 			recipient.set({username: number});
 		});
+		*/
 
 		this.with_bind(this.recipients, ['change', 'add', 'remove', 'reset'], this.render.bind(this));
 		this.render();
