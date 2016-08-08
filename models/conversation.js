@@ -31,7 +31,18 @@ var Conversation = Composer.RelationalModel.extend({
 		}
 		else
 		{
-			return app.api.post(this.get_url()+'/messages', message.toJSON(), {})
+			var users = this.get('users').toJSON(),
+		    	username = users[0].username,
+		    	userId = users[0].id,
+		    	data = {
+		    		message: message.toJSON(),
+		    		user: {
+		    			id: userId,
+		    			username: username
+		    		}
+		    	};
+
+			return app.api.post(this.get_url()+'/messages', data, {})
 				.bind(this)
 				.then(function(res) {
 					this.get('messages').add(res);
